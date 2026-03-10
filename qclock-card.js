@@ -9,7 +9,7 @@
  *
  * Lovelace-Konfiguration:
  *   type: custom:qclock-card
- *   language: de   # de | de_east | en | fr | it | es  (default: de)
+ *   language: de   # de | de_quarter | en | fr | it | es  (default: de)
  *   color_active: "#e8d5b0"
  *   color_inactive: "#252018"
  *   color_background: "#0d0d0d"
@@ -107,7 +107,7 @@ const CLOCK_LANGUAGES = {
     // A C H T Z E H N S E X
     // S E C H S U H R E I N
     // E I N S U H R K A B C
-    de_east: {
+    de_quarter: {
         label: "Deutsch (¼/¾)",
         matrixRows: [
             ["E", "S", "K", "I", "S", "T", "L", "F", "Ü", "N", "F"],  // 0
@@ -421,7 +421,7 @@ function getActiveCoords(lang, hours, minutes) {
 
     // Sonderfall Deutsch: "EIN UHR" (singular) statt "EINS UHR"
     let hourKey = h;
-    if ((lang === "de" || lang === "de_east") && h === 1 && m5 === 0) {
+    if ((lang === "de" || lang === "de_quarter") && h === 1 && m5 === 0) {
         hourKey = 100;
     }
 
