@@ -1,5 +1,9 @@
 # Changes
 
+## 0.3.0
+### New features:
+* Add switch to disable box shadow
+
 ## 0.2.0
 ### New features:
 * Add German "viertel/dreiviertel" style

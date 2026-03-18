@@ -462,6 +462,7 @@ const QCLOCK_STYLES = `
     --qc-glow:     var(--qclock-glow,     rgba(200,160,80,0.4));
     --qc-radius:   var(--qclock-radius,   14px);
     --qc-fs:       var(--qclock-fs,       1.55rem);
+    --qc-shadow:   var(--qclock-shadow,   inset 0 0 60px rgba(0,0,0,0.65), 0 6px 30px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.035));
     font-family: 'Courier New', 'Lucida Console', 'DejaVu Sans Mono', monospace;
   }
 
@@ -479,10 +480,7 @@ const QCLOCK_STYLES = `
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    box-shadow:
-      inset 0 0 60px rgba(0,0,0,0.65),
-      0 6px 30px rgba(0,0,0,0.55),
-      0 0 0 1px rgba(255,255,255,0.035);
+    box-shadow: var(--qc-shadow);
   }
 
   .wrapper::before {
@@ -693,6 +691,28 @@ const EDITOR_STYLES = `
     font-size: 1rem;
   }
 
+  .row-toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .row-toggle label {
+    font-size: 0.85rem;
+    color: var(--secondary-text-color, #888);
+    font-weight: 500;
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color, #03a9f4);
+    flex-shrink: 0;
+  }
+
   .hint {
     font-size: 0.75rem;
     color: var(--secondary-text-color, #888);
@@ -759,6 +779,7 @@ class QClockCardEditor extends HTMLElement {
         sizeField.className = "row-size";
         inlineRow.appendChild(sizeField);
         editor.appendChild(inlineRow);
+        editor.appendChild(this._buildToggle("shadow", "Schatten / Rahmen", this._config.shadow));
 
         // ── Farben ───────────────────────────────────────────────────────────────
         editor.appendChild(this._sectionTitle("Farben"));
@@ -874,6 +895,22 @@ class QClockCardEditor extends HTMLElement {
             row.appendChild(hintEl);
         }
 
+        return row;
+    }
+
+    _buildToggle(key, labelText, currentValue) {
+        const row = document.createElement("div");
+        row.className = "row-toggle";
+
+        const label = document.createElement("label");
+        label.textContent = labelText;
+        row.appendChild(label);
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = currentValue !== false;
+        input.addEventListener("change", () => this._fire(key, input.checked));
+        row.appendChild(input);
         return row;
     }
 
@@ -1054,6 +1091,8 @@ class QClockCard extends HTMLElement {
         if (c.color_inactive) this.style.setProperty("--qclock-inactive", c.color_inactive);
         if (c.color_highlight) this.style.setProperty("--qclock-highlight", c.color_highlight);
         if (c.font_size) this.style.setProperty("--qclock-fs", `${c.font_size}rem`);
+        if (c.shadow === false) this.style.setProperty("--qclock-shadow", "none");
+        else this.style.removeProperty("--qclock-shadow");
     }
 
     static getConfigElement() {
