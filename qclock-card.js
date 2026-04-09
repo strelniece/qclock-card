@@ -1180,7 +1180,7 @@ window.customCards = window.customCards || [];
 window.customCards.push({
     type: "qclock-card",
     name: "QClock – Wort-Uhr",
-    description: "Wort-Uhr (Word Clock) in Deutsch, Englisch, Französisch, Italienisch und Spanisch.",
+    description: "Wort-Uhr (Word Clock) in Deutsch, Englisch, Französisch, Italienisch, Spanisch und Schwedisch.",
     preview: true,
     documentationURL: "https://github.com/YOUR_GITHUB/qclock-card",
 });
